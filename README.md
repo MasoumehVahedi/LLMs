@@ -1,7 +1,9 @@
 
 # Large Language Models
 
-## Some important Frontier models and their end-user:
+This project highlights some of the most advanced large language models (LLMs) and their corresponding end-user applications. 
+
+### Some important Frontier models and their end-user:
 
 1- OpenAI
 Models: GPT, O1

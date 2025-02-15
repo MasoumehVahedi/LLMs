@@ -1,6 +1,6 @@
-<<<<<<< HEAD
-# LLMs
-=======
+
+# Large Language Models
+
 ## Some important Frontier models and their end-user:
 
 1- OpenAI
@@ -27,4 +27,4 @@ Chat: meta.ai
 Models: Perplexity
 Search: Perplexity
 
->>>>>>> 498ea95 (Add README.md)
+

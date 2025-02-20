@@ -123,36 +123,5 @@ def callOllamaDeepSeek(prompt: str) -> str:
 
 
 
-if __name__ == "__main__":
-    messages = [
-        {"role": "user", "content": "Describe some of the business applications of Generative AI"}
-    ]
-
-    # Method 1: Using requests
-    result_requests = callOllamaRequest(messages)
-    if result_requests:
-        print("Response via requests:")
-        print(result_requests)
-
-    # Method 2: Using the ollama package
-    result_package = callOllamaPackage(messages)
-    print("\nResponse via the ollama package:")
-    print(result_package)
-
-    # Method 3: Using the OpenAI client library
-    result_openai = callOllamaOpenAI(messages)
-    print("\nResponse via the OpenAI client library:")
-    print(result_openai)
-
-    # Method 4: Using the Deepseek R1
-    prompt = (
-        "Please give definitions of some core concepts behind LLMs: "
-        "a neural network, attention and the transformer"
-    )
-    result_deepseek = callOllamaDeepSeek(prompt)
-    print("\nResponse via the Deepseek R1:")
-    print(result_deepseek)
-
-
 
 

@@ -6,7 +6,7 @@ from WebsiteSummarizationOllama import callOllamaPackage, callOllamaOpenAI, call
 
 def test(url):
     #----------------------------------
-    #       Testing OpenAI
+    #         Testing OpenAI
     # ---------------------------------
 
     # Initialize and constants
@@ -58,7 +58,7 @@ def test(url):
 
 
 
-def summarizeWithAPI(url):
+def summarizeWebsiteWithAPI(url):
     # Initialize and constants
     MODEL, openai = connectionAPIKey()
 
@@ -71,7 +71,7 @@ def summarizeWithAPI(url):
 
 
 
-def summarizeWithOllama(url):
+def summarizeWebsiteWithOllama(url):
     website = Website(url)
     # Using the OpenAI client library
     result = callOllamaOpenAI(messages=messagesFor(website))
@@ -83,11 +83,11 @@ def summarizeWithOllama(url):
 def displaySummary(url):
     # Summarization using OpenAI
     print("\nSummary via OpenAI:")
-    summary_api = summarizeWithAPI(url)
+    summary_api = summarizeWebsiteWithAPI(url)
     print(summary_api)
 
     # Summarization using Ollama
-    summary_ollama = summarizeWithOllama(url)
+    summary_ollama = summarizeWebsiteWithOllama(url)
     print("\nSummary via the ollama:")
     print(summary_ollama)
 

@@ -18,8 +18,7 @@ from typing import List
 from openai import OpenAI
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
-
-
+from IPython.display import Markdown, display, update_display
 
 
 
@@ -131,6 +130,7 @@ def generateLinksUserPrompt(website):
     prompt += "\n".join(website.links)
     return prompt
 
+
 # Core function to interact with the GPT-4o-mini model to retrieve relevant links
 def fetchRelevantLinks(url, openai, MODEL):
     website = Website(url)
@@ -144,4 +144,68 @@ def fetchRelevantLinks(url, openai, MODEL):
     )
     content = response.choices[0].message.content
     return json.loads(content)
+
+
+def getAllRelevantLinks(url, openai, MODEL):
+    result = "Landing Page\n"
+    result += Website(url).get_contents()
+    relevant_links = fetchRelevantLinks(url, openai, MODEL)
+    print(f"Found Links: {relevant_links}")
+    for link in relevant_links["links"]:
+        result += f"\n\n{link['type']}\n"
+        result += Website(link["url"]).get_contents()
+    return result
+
+
+
+###### STEP 2: Use the information from step 1 to make a brocher ######
+# With changing system_prompt words instead of saying "prospective customers, investors and recruits", if we say
+# "short humorous, entertaining, jokey brochure", everything will be changed and the content will be different.
+system_prompt = "You are an assistant that analyzes the contents of several relevant pages from a company website \
+and creates a short brochure about the company for prospective customers, investors and recruits. Respond in markdown.\
+Include details of company culture, customers and careers/jobs if you have the information."
+
+def getBroucherUserPrompt(company_name, url, openai, MODEL):
+    user_prompt = f"We are looking at a company called: {company_name}\n"
+    user_prompt += f"Here are the contents of its landing page and other relevant pages; use this information to build a short brochure of the company in markdown.\n"
+    user_prompt += getAllRelevantLinks(url, openai, MODEL)
+    user_prompt = user_prompt[:5_000]  # Truncate if more than 5,000 characters
+    return user_prompt
+
+
+def createBroucher(company_name, url, openai, MODEL):
+    response = openai.chat.completions.create(
+        model=MODEL,
+        messages=[
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": getBroucherUserPrompt(company_name, url, openai, MODEL)}
+        ],
+        response_format={"type": "json_object"}
+    )
+    content = response.choices[0].message.content
+    return json.loads(content)
+
+
+
+def createStreamBroucher(company_name, url, openai, MODEL):
+    """ This is fancy format so that the results stream back from OpenAI. """
+    stream = openai.chat.completions.create(
+        model=MODEL,
+        messages=[
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": getBroucherUserPrompt(company_name, url, openai, MODEL)}
+        ],
+        stream = True
+    )
+    response = ""
+    #display_handle = display(Markdown(""), display_id=True)
+    for chunk in stream:
+        response += chunk.choices[0].delta.content or ""
+        response = response.replace("```","").replace("markdown", "")
+        #update_display(Markdown(response), display_id=display_handle.display_id)
+        print(response, end="\r", flush=True)
+
+
+
+
 

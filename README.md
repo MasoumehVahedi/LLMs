@@ -29,4 +29,14 @@ Chat: meta.ai
 Models: Perplexity
 Search: Perplexity
 
+## Building AI Agent Framework
 
+### Agentic AI: Smarter Problem-Solving
+
+Agentic AI helps AI agents tackle problems efficiently. Here's how:
+
+- **Break tasks into steps** → Different AI models handle different parts.
+- **Use tools** → AI can access extra tools for better results.
+- **Collaborate** → AI agents work together in an environment.
+- **Plan ahead** → One AI organizes tasks for the others.
+- **Think independently** → AI remembers and acts beyond simple replies.

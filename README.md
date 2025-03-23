@@ -40,3 +40,6 @@ Agentic AI helps AI agents tackle problems efficiently. Here's how:
 - **Collaborate** → AI agents work together in an environment.
 - **Plan ahead** → One AI organizes tasks for the others.
 - **Think independently** → AI remembers and acts beyond simple replies.
+
+## Reference
+

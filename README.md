@@ -80,5 +80,24 @@ Answer is: we would you would roughly need to double the size of our training da
 **Hugging Face Open LLM leaderboard**, which is where we can go to compare open source models against a number of different benchmarks and and key attributes.
 Visit this [link] (https://huggingface.co/spaces/open-llm-leaderboard/open_llm_leaderboard#/).
 
+## Six Essential Leaderboards
+
+Add these to our bookmarks, they’re great resources for selecting LLMs:
+
+1- HuggingFace Open LLM – new and old versions \
+2- HuggingFace BigCode \
+3- HuggingFace LLM Perf \
+4- HuggingFace Others – medical and language-specific \
+5- Vellum – includes API cost and context window info \
+6- SEAL – assesses expert-level skills
+
+## LLM Leaderboard & Evaluation Resources
+
+- **LMSYS Chatbot Arena** -> Helps determine which model is better at instruction-following chats.
+
+1- Compare frontier and open-source models directly. \
+2- Blind human evaluations based on head-to-head comparisons. \
+3- Models are rated using an ELO system. \
+
 ## Reference
 

@@ -43,7 +43,9 @@ Agentic AI helps AI agents tackle problems efficiently. Here's how:
 
 ## Comparing LLMs to select for a project
 
-1- Basics: Compare the following features of an LLM:
+Compare the following features of an LLM.
+
+1- Basics 1:
 
 - **Open-source or closed**
 - **Release date and knowledge cut-off**
@@ -51,6 +53,16 @@ Agentic AI helps AI agents tackle problems efficiently. Here's how:
 - **Training tokens**
 - **Context length**
 
+2- Basics 2:
+
+- **Inference cost** -> API charge, Subscription or Runtime compute
+- **Training cost**
+- **Build cost** -> How much work will it be for you to create this solution.
+- **Time to Market** -> How long does it take to build the LLM
+- **Rate limits** -> run into some limits on how frequently you can call them. This is typically the case for subscription plans.
+- **Speed** -> How quickly can generate a whole response?
+- **Latency** -> How quickly does it first start responding with each token?
+- **License** -> Whether we are dealing with open source or closed source to be allowed to use it.
 
 ## Reference
 

@@ -41,5 +41,16 @@ Agentic AI helps AI agents tackle problems efficiently. Here's how:
 - **Plan ahead** → One AI organizes tasks for the others.
 - **Think independently** → AI remembers and acts beyond simple replies.
 
+## Comparing LLMs to select for a project
+
+1- Basics: Compare the following features of an LLM:
+
+- **Open-source or closed**
+- **Release date and knowledge cut-off**
+- **Parameters**
+- **Training tokens**
+- **Context length**
+
+
 ## Reference
 

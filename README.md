@@ -75,5 +75,10 @@ Answer: if we were then to double the amount of training data from that that poi
 How much more training data am I going to need to be able to to take advantage of that? \
 Answer is: we would you would roughly need to double the size of our training data set.
 
+## LLM Benchmarks
+
+**Hugging Face Open LLM leaderboard**, which is where we can go to compare open source models against a number of different benchmarks and and key attributes.
+Visit this [link] (https://huggingface.co/spaces/open-llm-leaderboard/open_llm_leaderboard#/).
+
 ## Reference
 

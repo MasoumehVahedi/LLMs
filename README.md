@@ -64,5 +64,16 @@ Compare the following features of an LLM.
 - **Latency** -> How quickly does it first start responding with each token?
 - **License** -> Whether we are dealing with open source or closed source to be allowed to use it.
 
+3- The Chincilla Scaling Law:
+
+The number of parameters is roughly proportional to the size of our training data to the number of training tokens. \
+Let's say it's an 8 billion parameter model, and we get to the point where we start to see that we're getting diminishing returns. Adding in more training data isn't significantly affecting the model.
+
+How many more parameters do I need given extra training data? \
+Answer: if we were then to double the amount of training data from that that point of diminishing returns, we would need double the number of weights you'd need to go from 8 billion to 16 billion parameters to be able to consume twice the training data and learn from it in an effective way.
+
+How much more training data am I going to need to be able to to take advantage of that? \
+Answer is: we would you would roughly need to double the size of our training data set.
+
 ## Reference
 

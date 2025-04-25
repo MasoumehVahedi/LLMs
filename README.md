@@ -123,6 +123,44 @@ Add these to our bookmarks, they’re great resources for selecting LLMs:
 
 > **Tip:** We need to use them in concert. One allows us to optimize our model to fine tune our model to to demonstrate its its fast performance. And the other of them is what we use to ultimately prove the business impact behind our solution.
 
+## Motivating RAG: Retrieval Augmented Generation
+### The problem with static prompts
+Even the best prompt can only “see” what we give it up front.  
+- We ask “What’s our current product lineup?”  
+- 🤖 The model guesses based on training data, and may be out-of-date or incomplete.
+
+### A simple RAG workflow
+1. **Query a live Knowledge Base**  
+   – e.g. a company wiki, product catalog, or database of FAQs  
+2. **Retrieve the most relevant passages**  
+   – “List all active insurance products”  
+3. **Stitch those snippets into your prompt**  
+4. **Send the enriched prompt to the LLM**  
+5. **Return an accurate, up-to-date answer**
+
+### Real-world example
+> **User**: “Which policies cover flood damage?”  
+> **RAG step 1**: Search Knowledge Base for “flood” → finds two policy docs  
+> **RAG step 2**: Prepend:  
+> ```
+> [Policy A: covers flood up to $10k]  
+> [Policy B: excludes flood coverage in coastal zones]
+> ```  
+> **Prompt to LLM**:  
+> ```
+> We have two policies: A covers flood up to $10k; B excludes flood in coastal zones.  
+> Q: Which policies include flood damage coverage?
+> ```  
+> **LLM Answer**: “Only Policy A covers flood damage (up to \$10,000).”
+
+### Why it matters
+- **Up-to-date**: Always reflects our latest data  
+- **Focused**: Filters out irrelevant info  
+- **Explainable**: We can show exactly which sources we used  
+- **Scalable**: Swap in any Knowledge Base—wikis, SQL databases, vector stores  
+
+With RAG, our app goes from “best guess” to “best answer.”
+
 
 
 ## Reference

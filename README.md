@@ -99,5 +99,31 @@ Add these to our bookmarks, they’re great resources for selecting LLMs:
 2- Blind human evaluations based on head-to-head comparisons. \
 3- Models are rated using an ELO system. \
 
+## How to evaluate the performance of a Gen AI solution?
+*This is perhaps the single most important question you will face*
+
+| Model-centric or Technical Metrics     | Business-centric or Outcome Metrics     |
+|----------------------------------------|-----------------------------------------|
+| **Loss** (e.g., cross-entropy loss)    | **KPIs tied to business objectives**    |
+| **Perplexity**                         | - **ROI**                               |
+| **Accuracy**                           | - **Improvements in time, cost or resources** |
+| **Precision, Recall, F1**              | - **Customer satisfaction**             |
+| **AUC-ROC**                            | - **Benchmark comparisons**             |
+| *Easiest to optimize with*             | *Most tangible impact*                  |
+
+
+## Metric Definitions
+
+- **Cross-Entropy Loss**  
+  The negative log‐probability of the true next token. It’s a core training objective—lower is better.
+
+- **Perplexity**  
+  Defined as \\(e^{\text{cross-entropy}}\\), it measures how “surprised” the model is.  
+  A perplexity of 1 means perfect prediction; higher values indicate more uncertainty.
+
+> **Tip:** Use these metrics in concert—cross-entropy to fine-tune and optimize your model, and perplexity to validate its predictive power and tie improvements back to real business impact.
+
+
+
 ## Reference
 

@@ -118,10 +118,10 @@ Add these to our bookmarks, they’re great resources for selecting LLMs:
   The negative log‐probability of the true next token. It’s a core training objective—lower is better.
 
 - **Perplexity**  
-  Defined as \\(e^{\text{cross-entropy}}\\), it measures how “surprised” the model is.  
+  Defined as e to the power of cross-entropy loss, it measures how “surprised” the model is.  
   A perplexity of 1 means perfect prediction; higher values indicate more uncertainty.
 
-> **Tip:** Use these metrics in concert—cross-entropy to fine-tune and optimize your model, and perplexity to validate its predictive power and tie improvements back to real business impact.
+> **Tip:** We need to use them in concert. One allows us to optimize our model to fine tune our model to to demonstrate its its fast performance. And the other of them is what we use to ultimately prove the business impact behind our solution.
 
 
 

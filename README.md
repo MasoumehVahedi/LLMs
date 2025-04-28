@@ -232,5 +232,17 @@ Retrieval-Augmented Generation (RAG) marries the strengths of vector search with
 > [LLM Generation → Answer]  
 > ```
 
+## Introducing Chroma
+
+Chroma is the open-source “AI application database” – batteries included. It brings together:
+
+- **Embeddings & Vector Search**  
+  Store and query high-dimensional vectors for semantic lookup.  
+- **Document & Full-Text Search**  
+  Keep our raw text alongside embeddings and fall back to keyword search when you need it.  
+- **Metadata Filtering & Multi-Modal Support**  
+  Tag and filter records, or index images, JSON, and more in one unified store.  
+
+This is what we'll be using to store our vectors.
 ## Reference
 

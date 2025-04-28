@@ -161,6 +161,30 @@ Even the best prompt can only “see” what we give it up front.
 
 With RAG, our app goes from “best guess” to “best answer.”
 
+## Vector Embeddings & Encoding
+
+High-dimensional vectors are a powerful way to **mathematically represent the “meaning”** of almost any piece of data—be it a single character or token, a word, a sentence or paragraph, an entire document, or even something abstract (for example, candidate profiles, job descriptions, product features, etc.).  
+
+
+### Auto-Regressive vs Auto-Encoding Models
+
+- **Auto-Regressive LLMs**  
+Generate text by predicting each next token from the sequence of previous tokens (e.g., GPT-style models).  
+- **Auto-Encoding LLMs**  
+Consume the entire input at once and produce outputs like classifications or embeddings. These models are the backbone of most embedding services: you feed in text, and they return a fixed-length vector.  
+
+**Common embedding models**  
+- BERT (Google)  
+- OpenAI Embedding API (e.g., `text-embedding-ada-002`)  
+
+### Why Embeddings Matter
+
+By converting text or other data into vectors that “understand” meaning:
+
+1. **Semantic Search & Retrieval**  
+ Quickly find the most relevant documents or passages via nearest-neighbor lookup in vector space.  
+2. **Retrieval-Augmented Generation (RAG)**  
+ Retrieve contextually relevant snippets and prepend them to our LLM prompt—grounding responses in real data and improving factual accuracy.  
 
 
 ## Reference

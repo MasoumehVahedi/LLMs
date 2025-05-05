@@ -111,8 +111,9 @@ Add these to our bookmarks, they’re great resources for selecting LLMs:
 | **AUC-ROC**                            | - **Benchmark comparisons**             |
 | *Easiest to optimize with*             | *Most tangible impact*                  |
 
+## 📖 Key Concepts & Workflow Overview:
 
-## Metric Definitions
+## 1. Metric Definitions
 
 - **Cross-Entropy Loss**  
   The negative log‐probability of the true next token. It’s a core training objective—lower is better.
@@ -161,7 +162,7 @@ Even the best prompt can only “see” what we give it up front.
 
 With RAG, our app goes from “best guess” to “best answer.”
 
-## Vector Embeddings & Encoding
+## 2. Vector Embeddings & Encoding
 
 High-dimensional vectors are a powerful way to **mathematically represent the “meaning”** of almost any piece of data—be it a single character or token, a word, a sentence or paragraph, an entire document, or even something abstract (for example, candidate profiles, job descriptions, product features, etc.).  
 
@@ -186,7 +187,7 @@ By converting text or other data into vectors that “understand” meaning:
 2. **Retrieval-Augmented Generation (RAG)**  
  Retrieve contextually relevant snippets and prepend them to our LLM prompt—grounding responses in real data and improving factual accuracy.  
 
-## 🧩 The Big Idea Behind RAG
+## 🧩 3. The Big Idea Behind RAG
 
 Retrieval-Augmented Generation (RAG) marries the strengths of vector search with large language models to ground your answers in real data. Here’s how it works:
 
@@ -232,7 +233,7 @@ Retrieval-Augmented Generation (RAG) marries the strengths of vector search with
 > [LLM Generation → Answer]  
 > ```
 
-## Introducing Chroma
+## 4. Introducing Chroma
 
 Chroma is the open-source “AI application database” – batteries included. It brings together:
 
@@ -246,7 +247,7 @@ Chroma is the open-source “AI application database” – batteries included. 
 This is what we'll be using to store our vectors.
 
 
-## Finding & Curating Datasets
+## 5. Finding & Curating Datasets
 
 Before you can encode and index text, you need a corpus. Common sources include:
 
@@ -254,7 +255,7 @@ Before you can encode and index text, you need a corpus. Common sources include:
    – Extract text from internal wikis, customer support logs, product specs, or other domain-specific repositories you already own.
 
 2. **Kaggle**  
-   – A rich ecosystem of public datasets spanning finance, healthcare, NLP benchmarks, image collections, and more. Great for bootstrapping prototypes.
+   – A rich ecosystem of public datasets.
 
 3. **Hugging Face Datasets**  
    – A centralized hub of hundreds of ready-to-use NLP and multimodal datasets with easy Python integration (`datasets` library).
@@ -266,25 +267,41 @@ Before you can encode and index text, you need a corpus. Common sources include:
    – Companies like Scale AI or Appen will curate, annotate, and validate datasets tailored to your exact requirements (e.g. entity-level annotations, multilingual corpora, etc.).
 
 
-## 🔍 Digging into the Data
+## 6. Digging into the Data  
+A six-step data preparation loop—each with its own one-sentence purpose:  
+1. **Investigate:** explore formats, size, and quirks of your raw data.  
+2. **Parse:** convert inputs into structured records (JSON, CSV, DB).  
+3. **Visualize:** chart distributions and outliers to uncover patterns.  
+4. **Assess Data Quality:** measure missing values, bias, and consistency.  
+5. **Curate:** clean, filter, and enrich to craft the ideal training set.  
+6. **Save:** persist your final dataset (local files, HF Hub, etc.).  
 
-1. **Investigate**  
-   Explore your raw data to understand its scope, formats, and potential issues.
 
-2. **Parse**  
-   Transform the raw inputs into a structured format (e.g. JSON, CSV, database tables) for easier handling.
 
-3. **Visualize**  
-   Generate charts or summary statistics to surface trends, distributions, and outliers.
+## 7. Token Limits & Cost  
+Every encoder/LLM has a max context length (in tokens). By choosing a fixed budget (e.g. 2K–4K tokens) and chunking your documents accordingly, you:  
+- **Predict resource needs** for GPU training (memory, batch size)  
+- **Cap API spend** on hosted models (billed per token)  
+- **Ensure fair comparison** between frontier and open-source models  
 
-4. **Assess Data Quality**  
-   Check for missing values, inconsistencies, and biases to determine which records to keep.
 
-5. **Curate**  
-   Clean, filter, and enrich the data to craft a dataset best suited for your downstream tasks.
+## 8. 5-Step LLM Strategy  
+To take an LLM from concept to production:  
+1. **Understand**: define business goals, success metrics, data scope, and non-functional requirements.  
+2. **Prepare**: research existing solutions, compare models (context length, cost, license), and curate your data.  
+3. **Select**: pick prompting, RAG, or fine-tuning based on accuracy needs, dataset size, and budget.  
+4. **Customize**: apply your chosen technique—prompt engineering for quick wins, RAG for grounded accuracy, or fine-tuning for specialist performance.  
+5. **Productionize**: wrap the model in a robust API, deploy with monitoring/security, measure against business metrics, and set up a continuous retrain loop.  
 
-6. **Save**  
-   Persist the finalized dataset in your target storage or sharing platform (e.g. local files, Hugging Face Hub).  
+
+## 9. Technique Cheat-Sheet  
+| Technique  | Best For                                                               | Pros                                       | Cons                                             |
+|------------|------------------------------------------------------------------------|--------------------------------------------|--------------------------------------------------|
+| Prompting  | Quick prototype on a frontier API                                      | Fast, low cost, immediate improvement      | Limited by context length, diminishing returns   |
+| RAG        | High factual accuracy without full model training, with existing KB    | Accurate with low data needs, scalable     | Requires maintained vector store, up-to-date data |
+| Fine-tuning| Specialized tasks, large high-quality datasets, nuanced behavior       | Deep expertise, consistent style, efficient| High data needs, training cost, catastrophic forgetting |
+
+Use this as your roadmap: iterate through **Understand → Prepare → Select → Customize → Productionize**, and you’ll have a repeatable, scalable LLM engineering process. 
 
 
 

@@ -18,9 +18,9 @@
 
 5. **Vellum Leaderboard**  
    Business-oriented sheet showing context window, latency and \$-per-million-tokens for both closed and open models.  
-   <https://www.vellum.ai/leaderboard>
+   <https://www.vellum.ai/llm-leaderboard>
 
 6. **SEAL Leaderboards (Scale AI)**  
    Expert-graded evaluations on coding, maths and instruction-following—human scores instead of pure benchmarks.  
-   <https://evals.scale.com/leaderboard>
+   <https://scale.com/leaderboard>
 

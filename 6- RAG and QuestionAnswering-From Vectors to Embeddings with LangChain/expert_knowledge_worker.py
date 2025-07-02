@@ -26,6 +26,7 @@ from langchain.text_splitter import CharacterTextSplitter, RecursiveCharacterTex
 from langchain.schema import Document
 from langchain_openai import OpenAIEmbeddings, ChatOpenAI
 from langchain_chroma import Chroma
+from langchain.vectorstores import FAISS
 from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
@@ -47,6 +48,7 @@ class RAGAssistant:
         chunk_overlap : overlap between chunks
         k             : # of chunks to send to the prompt
         embed_backend : "hf" | "openai"
+        store_backend : \"chroma\" or \"faiss\"
         model_name    : OpenAI chat model if you choose openai backend
     """
     def __init__(self,
@@ -55,6 +57,7 @@ class RAGAssistant:
                  chunk_overlap: int = 200,
                  k: int = 4,
                  embed_backend: Literal["hf", "openai"] = "hf",
+                 store_backend: Literal["chroma", "faiss"] = "chroma",
                  db_name: str = "vector_db",
                  openai_api_key: Optional[str] = "None",
                  use_openai_embed: bool = False,
@@ -65,6 +68,7 @@ class RAGAssistant:
         self.chunk_overlap = chunk_overlap
         self.db_name = db_name
         self.embed_backend = embed_backend,
+        self.store_backend = store_backend,
         self.model_name = model_name
         self.k = k            # chunks sent to the prompt
         self.debug = debug    # StdOutCallbackHandler
@@ -160,17 +164,23 @@ class RAGAssistant:
         doc_types = set(chunk.metadata['doc_type'] for chunk in chunks)
         print(f"Document types found: {', '.join(doc_types)}")
 
-        # Put the chunks of data into a Vector Store that associates a Vector Embedding with each chunk
-        if os.path.exists(self.db_name):
-            Chroma(persist_directory=self.db_name, embedding_function=self.embeddings).delete_collection()
-        # build vector DB from chunks
-        vectorstore = Chroma.from_documents(
-            documents=chunks,
-            embedding=self.embeddings,
-            persist_directory=self.db_name
-        )
+        if self.store_backend == "chroma":
+            # Put the chunks of data into a Vector Store that associates a Vector Embedding with each chunk
+            if os.path.exists(self.db_name):
+                Chroma(persist_directory=self.db_name, embedding_function=self.embeddings).delete_collection()
+            # build vector DB from chunks
+            vectorstore = Chroma.from_documents(
+                documents=chunks,
+                embedding=self.embeddings,
+                persist_directory=self.db_name
+            )
+            print(f"Vectorstore created with {vectorstore._collection.count()} documents")
+        else:  # faiss
+            vectorstore = FAISS.from_documents(chunks, embedding=self.embeddings)
+            total_vectors = vectorstore.index.ntotal  # number of vectors
+            dimensions = vectorstore.index.d          # embedding dimension
+            print(f"There are {total_vectors} vectors with {dimensions:,} dimensions in the vector store")
 
-        print(f"Vectorstore created with {vectorstore._collection.count()} documents")
         return vectorstore
 
 
@@ -232,6 +242,7 @@ class RAGAssistant:
 if __name__ == "__main__":
     bot = RAGAssistant(folder_root="knowledge-base",
                        embed_backend="hf",  # no cost
+                       store_backend="chroma",
                        debug=True,
                        k=25)
 
@@ -240,11 +251,4 @@ if __name__ == "__main__":
 
     # visualize vector embedding
     bot.visualise(dims=3)
-
-
-
-
-
-
-
 

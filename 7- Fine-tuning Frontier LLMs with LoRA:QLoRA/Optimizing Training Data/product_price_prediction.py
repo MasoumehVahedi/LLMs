@@ -56,7 +56,9 @@ tokenizer = AutoTokenizer.from_pretrained(BASE_MODEL, trust_remote_code=True)
 
 # ─── 4- Subclass the generic builder ─────────────────────────────────────────
 class ProductExample(TrainingExample):
-    def __init__(self, raw):
+
+
+    def __init__(self, raw, price):
         # ─── A) assemble raw combined text ────────────────────────────
         description = "\n".join(raw.get("description", []))
         features = "\n".join(raw.get("features", []))
@@ -83,7 +85,7 @@ class ProductExample(TrainingExample):
         super().__init__(
             raw = {
                 "text": final_text,
-                "price": raw.get("price")
+                "price": price
             },
             input_key="text",          # picks "text" as the input
             target_key="price",        # picks "price" as the input

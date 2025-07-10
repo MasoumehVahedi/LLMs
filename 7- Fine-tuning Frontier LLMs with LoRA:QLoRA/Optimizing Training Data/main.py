@@ -47,16 +47,13 @@ def main():
     for row in dataset:
         try:
             price = float(row["price"])
+            if price > 0:
+                # build our training‐example wrapper
+                record = ProductExample(row, price)
+                if record.valid:
+                    examples.append(record)
         except (KeyError, ValueError):
             continue
-        if price <= 0:
-            continue
-
-        # build our training‐example wrapper
-        record = ProductExample(row)
-
-        if record.valid:
-            examples.append(record)
 
 
     print(f"There are {len(examples):,} valid examples ready for training")

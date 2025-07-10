@@ -46,7 +46,7 @@ We’ll track both **model-centric** (technical) and **business-centric** (outco
 | **Model-centric** (Training & Debug)      | **Business-centric** (User Impact)         |
 |-------------------------------------------|--------------------------------------------|
 | **Training loss**<br>– how well you fit the training set | **Average price error**<br>– mean absolute difference between predicted vs actual prices |
-| **Validation loss**<br>– generalization on held-out data | **% price difference**<br>– $\dfrac{|\,\text{predicted}-\text{actual}\,|}{\text{actual}}\times100\%$ |
+| **Validation loss**<br>– generalization on held-out data | **% price difference**<br>– `(|predicted – actual| ÷ actual) × 100%`|
 | **Root Mean Squared Log Error (RMSLE)**<br>– penalizes large under-/over-predictions | **“Good” estimate rate**<br>– share of predictions within \$40 **or** within 20% of the true price |
 
 > **Why both?**  

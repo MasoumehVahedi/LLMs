@@ -1,15 +1,12 @@
 import os
-import pickle
-import random
-import numpy as np
 import matplotlib.pyplot as plt
 from dotenv import load_dotenv
 from huggingface_hub import login
 from collections import Counter, defaultdict
-from datasets import load_dataset, Dataset, DatasetDict
 
 from visualize_dataset import plotDistribution, plotBar, plotDonut
 from balance_training_sample import buildTrainingSample
+from split_dataset import splitDataset, buildDataset
 from product_price_prediction import ProductExample
 from dataset_loader import DatasetLoader
 
@@ -60,9 +57,9 @@ def dataCuration():
     records = DatasetLoader(dataset_name).load()
     print(records[1].prompt)
 
-    # -----------------------------------------
-    #        Optimizing Large Dataset
-    # -----------------------------------------
+    # -----------------------------------------------------
+    #        1- Optimizing Loading Large Dataset
+    # -----------------------------------------------------
     # Now, we SCALE UP all datasets of all records (very large dataset)
     dataset_names = [
         "Video_Games",
@@ -109,7 +106,7 @@ def dataCuration():
     )
 
     # ----------------------------------------------------------
-    #        Create a Balanced Dataset for LLM Training
+    #       2- Create a Balanced Dataset for LLM Training
     # ----------------------------------------------------------
     slots = defaultdict(list)
     for example in all_records:
@@ -146,7 +143,7 @@ def dataCuration():
     )
 
     #-----------------------------------------
-    #        Analysing Correlations
+    #        3- Analysing Correlations
     #-----------------------------------------
     # How does the price vary with the character count of the prompt?
     # Let’s measure the correlation to see whether longer prompts actually tend to produce higher prices.
@@ -163,6 +160,16 @@ def dataCuration():
 
     # To check prompt and tokenizer
     report(sample[39800])
+
+    # -------------------------------------------------------
+    #        4- Split our dataset into Train and Test
+    # -------------------------------------------------------
+    # In this example, the total number of sample size is: 136,733
+    train_size = 134733
+    test_size = 136733
+    x_train, x_test = splitDataset(sample, train_size, test_size)
+    dataset = buildDataset(x_train, x_test, PREFIX="Price is $")
+    print(dataset)
 
 
 

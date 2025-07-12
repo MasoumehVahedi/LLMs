@@ -56,7 +56,10 @@ tokenizer = AutoTokenizer.from_pretrained(BASE_MODEL, trust_remote_code=True)
 
 # ─── 4- Subclass the generic builder ─────────────────────────────────────────
 class ProductExample(TrainingExample):
-
+    """
+        A price-prediction example wrapping raw product metadata into a prompt → price pair.
+    """
+    tokenizer = tokenizer
 
     def __init__(self, raw, price):
         # ─── A) assemble raw combined text ────────────────────────────

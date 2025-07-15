@@ -8,9 +8,6 @@ import pandas as pd
 # Import for traditional machine learning
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, r2_score
-from sklearn.preprocessing import StandardScaler
-from sklearn.svm import LinearSVR
-from sklearn.ensemble import RandomForestRegressor
 
 # Import NLP
 from gensim.models import Word2Vec
@@ -93,48 +90,94 @@ def linear_regression_price(model, feature_columns, feature_fn):
 #         4- Bag of Words & Linear Regression
 #------------------------------------------------------------
 
-def bow_and_linear_regression(train, PREFIX):
-    prices = np.array([float(item.price) for item in train])
-    documents = [item.testPromt(PREFIX) for item in train]
+def bow_linear_regression_model(documents,
+                                prices,
+                                max_features=1000,
+                                stop_words="english",
+                                PREFIX="Price is $"):
+    """
+        Train a Bag-of-Words + LinearRegression on `train` examples and
+        return a predictor(item) function.
+
+        text_fn:   item -> str  (what text to vectorize)
+        target_fn: item -> float (what numeric target to predict)
+    """
 
     # Use the CountVectorizer for a Bag of Words model
-    np.random.seed(42)
-    vectorizer = CountVectorizer(max_features=1000, stop_words="english")
-    X = vectorizer.fit_transform(documents)
-    lr_model = LinearRegression().fit(X, prices)
-    
+    vectorizer = CountVectorizer(max_features=max_features, stop_words=stop_words)
+    X_train = vectorizer.fit_transform(documents)
+
+    # Fit regressor
+    lr_model = LinearRegression()
+    lr_model.fit(X_train, prices)
+
+    # Build the predictor closure
+    def predict(item):
+        x = vectorizer.transform([item.testPromt(PREFIX)])
+        y_pred = lr_model.predict(x)[0]
+        return max(y_pred, 0.0)
+
+    predict.__name__ = "bow_linear_regression"
+    return predict
+
+
+#------------------------------------------------------------------------------------------
+#       5- word2vec & Linear Regression or Support Vector Machines or Random Forest
+#------------------------------------------------------------------------------------------
+
+
+def document_vector(w2v_model, doc):
+    """
+        Given a trained gensim w2v_model and one raw doc string,
+        returns the mean of its word vectors (or zero-vector).
+    """
+    doc_words = simple_preprocess(doc)
+    word_vectors = [w2v_model.wv[word] for word in doc_words if word in w2v_model.wv]
+    return np.mean(word_vectors, axis=0) if word_vectors else np.zeros(w2v_model.vectore_size)
+
+
+def w2v_regression_model(documents: list[str],
+                         prices: list[float],
+                         regressor_cls,
+                         # W2V kwargs
+                         vector_size=400,
+                         window=5,
+                         min_count=1,
+                         workers=8,
+                         # any kwargs for the regressor
+                         regressor_kwargs: dict = {}
+                         ):
+    """
+        Train Word2Vec on `documents`, average into X_w2v, fit `regressor_cls` on (X_w2v, prices),
+        and return a predict(item) function.
+        Note: regressor_cls can be LinearRegression, LinearSVR, RandomForestRegressor and so on.
+    """
+    # Preprocess the documents
+    tokens = [simple_preprocess(docs) for docs in documents]
+    # Train w2v
+    w2v_model = Word2Vec(sentences=tokens,
+                         vector_size=vector_size,
+                         window=window,
+                         min_count=min_count,
+                         workers=workers)
+    # Build training matrix
+    X_w2v = np.array([document_vector(w2v_model, doc) for doc in documents])
+
+    # Fit the chosen regressor
+    linear_regressor = regressor_cls(**regressor_kwargs)
+    linear_regressor.fit(X_w2v, prices)
+
+    def predict(item):
+        doc = item.testPromt(PREFIX="Price is $")
+        doc_vector = document_vector(w2v_model, doc)
+        return max(float(linear_regressor.predict([doc_vector])[0]), 0.0)
+
+    predict.__name__ = regressor_cls.__name__.lower()
+    return predict
 
 
 
 
-
-
-
-#----------------------------------------------------------
-#         5- word2vec & Linear Regression
-#----------------------------------------------------------
-
-
-
-
-
-
-
-
-
-#-------------------------------------------------
-#         6- word2vec & Random Forest
-#-------------------------------------------------
-
-
-
-
-
-
-
-#----------------------------------------
-#         7- word2vec & SVM
-#----------------------------------------
 
 
 

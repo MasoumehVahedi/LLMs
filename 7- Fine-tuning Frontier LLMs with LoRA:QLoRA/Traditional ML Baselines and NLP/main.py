@@ -1,8 +1,13 @@
 import os
 import random
 import sys
+import numpy as np
 from dotenv import load_dotenv
 from huggingface_hub import login
+
+from sklearn.linear_model import LinearRegression
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.svm import LinearSVR
 
 from utils import list_to_dataframe
 from data_loader import load_data
@@ -21,6 +26,8 @@ from baselineModels import (
     constant_price,
     linear_regression_model,
     linear_regression_price,
+    bow_linear_regression_model,
+    w2v_regression_model
 )
 
 
@@ -49,11 +56,11 @@ def main():
     random.seed(42)
 
     ########## 1- Build & evaluate the random model ##########
-    Tester.test(random_price)
+    Tester.test(random_price, test)
 
     ########## 2- Build & evaluate the constant baseline ##########
     const_price = constant_price(train)
-    Tester.test(const_price)
+    Tester.test(const_price, test)
 
     ########## 3- Build features & evaluate the linear regression baseline ##########
     # 1) Create a new "features" field on items, and populate it with json parsed from the details dict
@@ -86,8 +93,39 @@ def main():
     # 5) Linear regression function to predict price for a new item
     model, feature_columns = linear_regression_model(df_train, df_test, target="price")
     lr_pricer = linear_regression_price(model, feature_columns, feature_fn)
-    Tester.test(lr_pricer)
+    Tester.test(lr_pricer, test)
 
+    ########## 4- Build Bag of Words + LinearRegression baseline ##########
+    # Extract training docs & targets
+    prices = np.array([float(item.price) for item in train])
+    documents = [item.testPromt(PREFIX="Price is $") for item in train]
+
+    # Train and evaluate our BOW+LR baseline
+    bow_lr_price = bow_linear_regression_model(documents, prices)
+    Tester.test(bow_lr_price, test)
+
+    ########## 5- Build Word2Vec + LinearRegression baseline ##########
+    # Build your Word2Vec+LR pricer
+    w2v_price = w2v_regression_model(documents,
+                                     prices,
+                                     regressor_cls=LinearRegression,
+                                     regressor_kwargs={})
+    Tester.test(w2v_price, test)
+
+    ########## 6- Build Word2Vec + LinearSVR baseline ##########
+    svr_price = w2v_regression_model(documents,
+                                     prices,
+                                     regressor_cls=LinearSVR,
+                                     regressor_kwargs={"random_state":42, "max_iter":10000})
+    Tester.test(svr_price, test)
+
+
+    ########## 7- Build Word2Vec + Random Forest baseline ##########
+    rf_price = w2v_regression_model(documents,
+                                     prices,
+                                     regressor_cls=RandomForestRegressor,
+                                     regressor_kwargs={"n_estimators":100, "random_state":42, "n_jobs":8})
+    Tester.test(rf_price, test)
 
 
 

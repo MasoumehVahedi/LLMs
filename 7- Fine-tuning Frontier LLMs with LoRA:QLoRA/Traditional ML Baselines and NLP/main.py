@@ -10,6 +10,7 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.svm import LinearSVR
 
 from utils import list_to_dataframe
+from utils import export_human_input, load_human_predictions, make_human_price
 from data_loader import load_data
 from testing import Tester
 from features import (
@@ -29,6 +30,8 @@ from baselineModels import (
     bow_linear_regression_model,
     w2v_regression_model
 )
+
+from frontierModels import make_frontier_pricer, prepare_messages
 
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -129,6 +132,27 @@ def main():
     Tester.test(rf_price, test)
 
 
+    ########## 8- Build human price baseline ##########
+    # Export prompts for humans
+    export_human_input(test, filename="human_input.csv")
+
+    # Load human estimates
+    human_preds = load_human_predictions("human_output.csv")
+
+    # Build the human-pricer and evaluate
+    human_pricer = make_human_price(test, human_preds)
+    Tester.test(human_pricer, test)
+
+    ########## 9- Build Frontier model: GPT ##########
+    print(prepare_messages(test[0]))
+    print(test[0].price)
+    # Use the Frontier model to estimate prices
+    frontier_gpt4o_price = make_frontier_pricer("gpt-4o-mini")
+    Tester.test(frontier_gpt4o_price, test)
+
+    # The function for gpt-4o - the August model
+    gpt4o_xl_price = make_frontier_pricer("gpt-4o-2024-08-06", max_tokens=5, temperature=0.2)
+    Tester.test(gpt4o_xl_price, test)
 
 
 

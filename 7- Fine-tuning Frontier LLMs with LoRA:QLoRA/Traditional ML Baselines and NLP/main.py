@@ -69,6 +69,7 @@ def main():
     print(train[0].features.keys())
 
     # Look at 20 most common features in training set
+    # This will help us understand what features we can use. One feature is "Brand", another is "Item Weight", etc.
     print(most_common_feature_keys(train))
 
     # 2) Compute defaults once
@@ -79,12 +80,12 @@ def main():
     print(most_common_brands(train))
 
     # 3) Build feature-function that needs the single `item` argument
-    TOP_ELECTRONICS_BRANDS = [
-        "hp", "dell", "lenovo",
-        "samsung", "asus", "sony",
-        "canon", "apple", "intel"
+    TOP_BRANDS = [
+        "Fender", "Frigidaire", "GE",
+        "Whirlpool", "Rockville", "Pyle",
+        "Generic", "Ibanez", "Behringer"
     ]
-    feature_fn = lambda item: get_features(item, avg_weight, avg_rank, TOP_ELECTRONICS_BRANDS, PREFIX="Price is $")
+    feature_fn = lambda item: get_features(item, avg_weight, avg_rank, TOP_BRANDS, PREFIX="Price is $")
 
     # 4) Build DataFrames for our features
     df_train = list_to_dataframe(train, feature_fn)
@@ -98,7 +99,7 @@ def main():
     ########## 4- Build Bag of Words + LinearRegression baseline ##########
     # Extract training docs & targets
     prices = np.array([float(item.price) for item in train])
-    documents = [item.testPromt(PREFIX="Price is $") for item in train]
+    documents = [item.testPrompt(prefix="Price is $") for item in train]
 
     # Train and evaluate our BOW+LR baseline
     bow_lr_price = bow_linear_regression_model(documents, prices)

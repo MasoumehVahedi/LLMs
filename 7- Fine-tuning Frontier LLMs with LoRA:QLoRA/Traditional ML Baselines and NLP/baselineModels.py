@@ -113,7 +113,7 @@ def bow_linear_regression_model(documents,
 
     # Build the predictor closure
     def predict(item):
-        x = vectorizer.transform([item.testPromt(PREFIX)])
+        x = vectorizer.transform([item.testPrompt(prefix=PREFIX)])
         y_pred = lr_model.predict(x)[0]
         return max(y_pred, 0.0)
 
@@ -168,7 +168,7 @@ def w2v_regression_model(documents: list[str],
     linear_regressor.fit(X_w2v, prices)
 
     def predict(item):
-        doc = item.testPromt(PREFIX="Price is $")
+        doc = item.testPrompt(prefix="Price is $")
         doc_vector = document_vector(w2v_model, doc)
         return max(float(linear_regressor.predict([doc_vector])[0]), 0.0)
 

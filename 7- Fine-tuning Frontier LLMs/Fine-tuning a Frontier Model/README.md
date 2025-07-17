@@ -15,3 +15,11 @@
    • Compare predictions vs. ground truth, gather metrics (e.g. RMSE, accuracy).  
    • Tweak prompts, hyperparameters, or dataset—and repeat the cycle.
 
+
+## How Many Examples for Fine‑Tuning?
+
+- **Recommendation:** OpenAI suggests using **50–100 examples** for a fine‑tune—just enough to teach the model our specific style or edge‑case behaviors.  
+- **Why not thousands?** Models like GPT‑4 have already seen billions of tokens; we only need a handful of examples to steer tone, fix quirks, or boost accuracy on our niche task.  
+- **Our choice:** We will use **500 examples**—more than the minimum, but still small enough that training is fast and cheap.  
+
+

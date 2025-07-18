@@ -23,3 +23,42 @@
 - **Our choice:** We will use **500 examples**—more than the minimum, but still small enough that training is fast and cheap.  
 
 
+## Weights & Biases Integration
+
+**What is W&B?**  
+Weights & Biases (W&B) is a free service for visualizing and tracking our ML experiments—loss curves, metrics, hyperparameters, and more.
+
+**Why integrate with OpenAI fine‑tuning?**  
+- Automatically log training & validation loss per epoch  
+- Record all hyperparameters (learning rate, batch size, epochs)  
+- Monitor job status and metadata in real time  
+
+This makes it far easier to spot overfitting, compare runs, and share results with our team.
+
+**Setup Steps**
+
+1. **Create a W&B account**  
+   - Go to [https://wandb.ai](https://wandb.ai)  
+   - Sign up or log in  
+   - Click your Avatar → **Settings**, then copy our **API Key**
+
+2. **Connect W&B to OpenAI**  
+   - Visit [https://platform.openai.com/account/organization](https://platform.openai.com/account/organization)  
+   - Open the **Integrations** tab  
+   - Paste your W&B API Key under **Weights & Biases**
+
+3. **Enable in code**  
+   ```python
+   from finetuner import FineTuner
+
+   # Pass our W&B project name into the constructor
+   ft = FineTuner(wandb_project="my-wandb-project")
+
+   # Launch your fine‑tune as usual
+   job_id = ft.create_fine_tune_job(
+       train_file_id, valid_file_id,
+       base_model="gpt-4o-mini",
+       n_epochs=1,
+       suffix="pricer"
+   )
+

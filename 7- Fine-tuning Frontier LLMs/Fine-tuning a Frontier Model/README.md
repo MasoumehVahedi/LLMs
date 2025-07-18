@@ -43,8 +43,9 @@ This makes it far easier to spot overfitting, compare runs, and share results wi
    - Click your Avatar → **Settings**, then copy our **API Key**
 
 2. **Connect W&B to OpenAI**  
-   - Visit [https://platform.openai.com/account/organization](https://platform.openai.com/account/organization)  
-   - Open the **Integrations** tab  
+   - Visit [https://platform.openai.com/account/organization](https://platform.openai.com/account/organization)
+   - click the ⚙️ (Settings) icon in the top right → Organization → General  
+   - Scroll down to the **Integrations** → Weights and Biases section  
    - Paste your W&B API Key under **Weights & Biases**
 
 3. **Enable in code**  
